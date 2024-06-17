@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "335668504320",
+    "firebase_url": "https://avinyaai-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "avinyaai",
+    "storage_bucket": "avinyaai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335668504320:android:2b16167dc0e443de2eb5e5",
+        "android_client_info": {
+          "package_name": "com.avinyaai.aiguru"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk9Shd_QhgOzM4cF4BQlzjqAeZ9tBpJ2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
