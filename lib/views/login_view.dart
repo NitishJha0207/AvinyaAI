@@ -1,5 +1,6 @@
 
 import 'package:aiguru/constants/routes.dart';
+import 'package:aiguru/utilities/show_error_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
@@ -69,9 +70,28 @@ class _LoginViewState extends State<LoginView> {
                   );
               } 
               on FirebaseAuthException catch(e){
-              if (e.code== 'invalid-credential'){
-                devtools.log("User not found");
-              }
+                if (e.code== 'invalid-credential'){
+                  await showErrorDialog(
+                    context, 
+                    "Please check your credentials. Either you have entered incorrect username/password or You are not a registered user.",
+                    );
+                  devtools.log("User not found");
+                } else if (e.code  == "wrong-password"){
+                  await showErrorDialog(
+                    context, 
+                    "You have entered incorrect password.",
+                    );
+                } else {
+                  await showErrorDialog(
+                    context, 
+                    'Error: ${e.code}',
+                    );
+                }
+              } catch (e) {
+                  await showErrorDialog(
+                    context, 
+                    e.toString(),
+                    );
               }
               
             },
@@ -91,3 +111,5 @@ class _LoginViewState extends State<LoginView> {
     );
   }     
 }
+
+

@@ -1,5 +1,5 @@
 import 'package:aiguru/constants/routes.dart';
-import 'package:aiguru/firebase_options.dart';
+import 'package:aiguru/utilities/show_error_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as devtools show log;
 import 'package:flutter/material.dart';
@@ -67,12 +67,21 @@ class _RegisterViewState extends State<RegisterView> {
       
               } on FirebaseAuthException catch(e){
                 if (e.code == 'weak-password'){
-                  devtools.log("Weak password");
+                  await showErrorDialog(
+                    context, 
+                    "You have entered very weak password. Please use combination of a capital letter, small letter, alphanumeric characters for the password.",
+                    );
                 }else if (e.code == 'email-already-in-use'){
-                  devtools.log("User account already exists. Try logging in with your credentials");
+                  await showErrorDialog(
+                    context, 
+                    "You are already a registered user. Please log in.",
+                    );
                 }
                 else if (e.code == 'invalid-email'){
-                  devtools.log("Invalid email");
+                  await showErrorDialog(
+                    context, 
+                    "Please enter valid email address.",
+                    );
                 }
               }
           },
