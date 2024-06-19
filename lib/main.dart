@@ -5,7 +5,6 @@ import 'package:aiguru/views/verify_email_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
 
 
 
@@ -18,8 +17,9 @@ void main() {
       ),
       home: const HomePage (),
       routes: {
-        '/login': (context) => const LoginView(),
-        '/register': (context)=> const RegisterView(),
+        '/login/': (context) => const LoginView(),
+        '/register/': (context)=> const RegisterView(),
+        '/mainui/': (context)=> const MainView(),
       }
     ));
 }
@@ -43,8 +43,7 @@ class HomePage extends StatelessWidget {
                   return const MainView();
                 } else {
                   return const VerifyEmailView();
-                }
-                
+                } 
                } else {
                 return const LoginView();
                }
@@ -82,7 +81,7 @@ class _MainViewState extends State<MainView> {
                   if (shouldLogout){
                     await FirebaseAuth.instance.signOut();
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/login', 
+                      '/login/', 
                       (_)=> false,
                       );
                   }
