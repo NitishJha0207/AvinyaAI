@@ -59,11 +59,13 @@ class _RegisterViewState extends State<RegisterView> {
               final email = _email.text;
               final password = _password.text;
               try{
-                final userCredential= await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                await FirebaseAuth.instance.createUserWithEmailAndPassword(
                 email: email, 
                 password: password
                 );
-                devtools.log(userCredential.toString());
+                final user = FirebaseAuth.instance.currentUser;
+                await user?.sendEmailVerification();
+                Navigator.of(context).pushNamed(verifyEmailRoute);
       
               } on FirebaseAuthException catch(e){
                 if (e.code == 'weak-password'){
@@ -82,7 +84,17 @@ class _RegisterViewState extends State<RegisterView> {
                     context, 
                     "Please enter valid email address.",
                     );
+                } else {
+                  await showErrorDialog(
+                    context, 
+                    'Error: ${e.code}',
+                    );
                 }
+              } catch (e) {
+                  await showErrorDialog(
+                    context, 
+                    e.toString(),
+                    );
               }
           },
             child: const Text('Register'),
