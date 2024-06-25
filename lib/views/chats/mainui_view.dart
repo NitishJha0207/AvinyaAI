@@ -35,8 +35,13 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Main UI"),
+        title: const Text("Your Chat"),
         actions: [
+          IconButton(onPressed: () {
+            Navigator.of(context).pushNamed(newChatRoute);
+          }, 
+          icon: const Icon(Icons.add)
+          ),
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
               switch (value)  {
