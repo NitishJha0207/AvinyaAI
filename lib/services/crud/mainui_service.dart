@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:aiguru/services/crud/crud_exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
@@ -10,15 +11,46 @@ class MainService {
 
   Database? _db;
 
+  List<DatabaseMain> _mains = [];
+
+  static final MainService _shared = MainService._sharedInstance();
+  MainService._sharedInstance();
+  factory MainService()=> _shared;
+
+  final _mainStreamController = StreamController<List<DatabaseMain>>.broadcast();
+
+  Stream<List<DatabaseMain>> get allMain => _mainStreamController.stream;
+
+  Future<DatabaseUser> getOrCreateUser({required String email}) async {
+    try {
+      final user =await getUser(email: email);
+      return user;
+    } on CouldNotFindUser {
+      final createdUser = await createUser(email: email);
+      return createdUser;
+    } catch (e) {
+      rethrow;
+    }
+    
+  }
+
+  Future<void> _cachedMain() async {
+    final allMains = await getAllMains();
+    _mains = allMains.toList();
+    _mainStreamController.add(_mains);
+  }
+
   Future<DatabaseMain> updateMain({
     required DatabaseMain main,
     required String text,
   }) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
-
+    
+    //make sure main exixts
     await getMain(id: main.id);
 
-
+    // update DB
     final updatesCount = await db.update(mainTable, {
       textColumn: text,
       isSyncedWithCloudColumn:0,
@@ -27,11 +59,16 @@ class MainService {
     if(updatesCount == 0){
       throw CouldNotUpdateMain();
     } else {
-      return await getMain(id: main.id);
+      final updatedMain = await getMain(id: main.id);
+      _mains.removeWhere((main) => main.id == updatedMain.id);
+      _mains.add(updatedMain);
+      _mainStreamController.add(_mains);
+      return updatedMain;
     }
   }
 
   Future<Iterable<DatabaseMain>> getAllMains() async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final mains = await db.query(
       mainTable,
@@ -41,6 +78,7 @@ class MainService {
   }
 
   Future<DatabaseMain> getMain ({ required int id}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final mains = await db.query(
       mainTable,
@@ -52,16 +90,25 @@ class MainService {
     if(mains.isEmpty){
       throw CouldNotFindMain();
     } else {
-      return DatabaseMain.fromRow(mains.first);
+      final main = DatabaseMain.fromRow(mains.first);
+      _mains.removeWhere((main) => main.id == id);
+      _mains.add(main);
+      _mainStreamController.add(_mains);
+      return main;
     }
   }
 
   Future<int> deleteAllMain() async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
-    return await db.delete(mainTable);
+    final numberOfDeletions =  await db.delete(mainTable);
+    _mains =[];
+    _mainStreamController.add(_mains);
+    return numberOfDeletions;
   }
 
   Future<void> deleteMain({ required int id}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final deletedCount = await db.delete(
       mainTable,
@@ -70,10 +117,14 @@ class MainService {
     );
     if (deletedCount == 0) {
       throw CouldNotDeletMain();
+    } else {
+      _mains.removeWhere((main) => main.id == id);
+      _mainStreamController.add(_mains);
     }
   }
 
   Future<DatabaseMain> createMain({required DatabaseUser owner}) async  {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
 
     //make sure owner exists in the database with correct id
@@ -97,12 +148,16 @@ class MainService {
       isSyncedWithCloud: true,
     );
 
+    _mains.add(main);
+    _mainStreamController.add(_mains);
+
     return main;
 
 
   }
 
   Future<DatabaseUser> getUser({required String email}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final results = await db.query(
       userTable,
@@ -119,6 +174,7 @@ class MainService {
   }
 
   Future<DatabaseUser> createUser({required String email}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final results = await db.query(
       userTable,
@@ -141,6 +197,7 @@ class MainService {
   }
 
   Future<void> deleteUser({required String email}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final deletedCount = await db.delete(
       userTable, 
@@ -175,6 +232,15 @@ class MainService {
 
   }
 
+  Future<void> _ensureDbIsOpen() async {
+    try {
+      await open();
+    } on DatabaseAlreadyOpenException{
+      //empty
+    }
+  }
+
+
   Future<void> open() async {
     if(_db != null) {
       throw DatabaseAlreadyOpenException();
@@ -189,6 +255,7 @@ class MainService {
 
         //create main table
         await db.execute(createMainTable);
+        await _cachedMain();
 
     } on MissingPlatformDirectoryException {
       throw UnableToGetDocumentDirecory();
