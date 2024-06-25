@@ -32,7 +32,10 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login'),),
+      appBar: AppBar(
+        title: const Text('Login'),
+        shadowColor: const Color.fromRGBO(7, 255, 172, 1),
+        ),
       body: Column(
         children: [
           TextField(
