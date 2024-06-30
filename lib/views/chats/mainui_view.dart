@@ -81,6 +81,7 @@ class _MainViewState extends State<MainView> {
                 builder: (context, snapshot) {
                   switch(snapshot.connectionState){                    
                     case ConnectionState.waiting:
+                    case ConnectionState.active:
                       return const Text('Waiting for chat history.');
                     default:
                     return const CircularProgressIndicator();
