@@ -2,6 +2,7 @@ import 'package:aiguru/firebase_options.dart';
 import 'package:aiguru/services/auth/auth_user.dart';
 import 'package:aiguru/services/auth/auth_provider.dart';
 import 'package:aiguru/services/auth/auth_exceptions.dart';
+import 'package:aiguru/services/auth/auth_vertexai.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, FirebaseAuthException;
 import 'package:firebase_core/firebase_core.dart';
 
@@ -104,6 +105,22 @@ class FirebaseAuthProvider implements AuthProvider {
     await Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,          
         );
+    
+    // Initialize the Vertex AI service and the generative model
+    // Specify a model that supports your use case
+    // Gemini 1.5 models are versatile and can be used with all API capabilities
+    
   }
+  
+  @override
+  GenAI get currentModel => currentModel;
+  
+  @override
+  NewChat get currentChat => currentChat;
+  
+
+
+
+  
 
 }

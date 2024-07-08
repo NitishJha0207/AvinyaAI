@@ -2,7 +2,9 @@ import 'package:aiguru/constants/routes.dart';
 import 'package:aiguru/enums/menu_action.dart';
 import 'package:aiguru/services/auth/auth_service.dart';
 import 'package:aiguru/services/crud/mainui_service.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+//import 'package:path/path.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
@@ -28,14 +30,14 @@ class _MainViewState extends State<MainView> {
     super.dispose();
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Your Chat"),
+        shadowColor: Colors.blue[50],
+        backgroundColor: Colors.red,
+        centerTitle: true,
+        title: const Text("Learning content", style: TextStyle(),),
         actions: [
           IconButton(onPressed: () {
             Navigator.of(context).pushNamed(newChatRoute);
@@ -71,28 +73,134 @@ class _MainViewState extends State<MainView> {
 
         ],
       ),
-      body: FutureBuilder(
-        future: _mainsService.getOrCreateUser(email: userEmail),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              return StreamBuilder(
-                stream: _mainsService.allMain, 
-                builder: (context, snapshot) {
-                  switch(snapshot.connectionState){                    
-                    case ConnectionState.waiting:
-                    case ConnectionState.active:
-                      return const Text('Waiting for chat history.');
-                    default:
-                    return const CircularProgressIndicator();
-                  }
+      
+      body: GridView.count(
+        primary: false,
+        padding: const EdgeInsets.all(20),
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        crossAxisCount: 2,
+        //gridDelegate: null,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.deepOrange[100],
+            child: const UpscContent(),
+            
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.deepOrange[100],
+            child: const Card(
+              borderOnForeground: true,
+              
+              ),            
+          ),
 
-                },);
-            default:
-              return const CircularProgressIndicator();
-          }
-        },
-      )
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.deepOrange[100],
+            child: const Card(
+              borderOnForeground: true,
+              ),            
+          ),
+
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.deepOrange[100],
+            child: const Card(
+              borderOnForeground: true,
+              ),            
+          ),
+
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.deepOrange[100],
+            child: const Card(
+              borderOnForeground: true,
+              ),            
+          ),
+
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.deepOrange[100],
+            child: const Card(
+              borderOnForeground: true,
+              ),            
+          ),
+
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.deepOrange[100],
+            child: const Card(
+              borderOnForeground: true,
+              ),            
+          ),
+
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.deepOrange[100],
+            child: const Card(
+              borderOnForeground: true,
+              ),            
+          ),
+
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.deepOrange[100],
+            child: const Card(
+              borderOnForeground: true,
+              ),            
+          ),
+
+          Container(
+            padding: const EdgeInsets.all(8),
+            color: Colors.deepOrange[100],
+            child: const Card(
+              borderOnForeground: true,
+              ),            
+          ),
+
+
+     ],
+     
+    ),
+           
+    
+      // Or any other location
+    );
+  }
+}
+
+class UpscContent extends StatefulWidget {
+  const UpscContent({super.key});
+
+  @override
+  State<UpscContent> createState() => _UpscContentState();
+}
+
+class _UpscContentState extends State<UpscContent> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        const ListTile(
+          leading: Icon(Icons.book),
+          title: Text("UPSC"),
+          subtitle: Text("data"),
+        ),
+        Row(mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                TextButton(
+                  child: const Text('Start learning'),
+                  onPressed: () {Navigator.of(context).pushNamed(newChatRoute);},
+                ),
+                
+                const SizedBox(width: 8),
+              ],
+            ),
+      ]
     );
   }
 }

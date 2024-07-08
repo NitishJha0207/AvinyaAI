@@ -1,4 +1,5 @@
 import 'package:aiguru/services/auth/auth_user.dart';
+import 'package:aiguru/services/auth/auth_vertexai.dart';
 
 abstract class AuthProvider{
   Future<void> initialze();
@@ -15,6 +16,8 @@ abstract class AuthProvider{
 
   Future<void> logOut();
   Future<void> sendEmailVerification();
+  GenAI get currentModel;
+  NewChat get currentChat;
 }
 
 
