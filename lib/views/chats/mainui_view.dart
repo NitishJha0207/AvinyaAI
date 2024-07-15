@@ -4,6 +4,7 @@ import 'package:aiguru/services/auth/auth_service.dart';
 import 'package:aiguru/services/crud/mainui_service.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 //import 'package:path/path.dart';
 
 class MainView extends StatefulWidget {
@@ -16,6 +17,7 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   late final MainService _mainsService;
   String get userEmail => AuthService.firebase().currentUser!.email!;
+  final FocusNode _textFieldFocus = FocusNode();
 
   @override
   void initState() {
@@ -30,14 +32,25 @@ class _MainViewState extends State<MainView> {
     super.dispose();
   }
 
+  Future<void> _sendChatMessage(String message) async{
+  await Navigator.of(context).pushNamed(newChatRoute);
+
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shadowColor: Colors.blue[50],
-        backgroundColor: Colors.red,
+        shadowColor: const Color.fromARGB(255, 13, 14, 15),
+        backgroundColor:const Color.fromARGB(255, 105, 175, 237),
         centerTitle: true,
-        title: const Text("Learning content", style: TextStyle(),),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset('assets/app_logo.png'), // Replace with your logo
+        ),
+        title: const Text("Avinya.AI", style: TextStyle(
+          
+        ),),
         actions: [
           IconButton(onPressed: () {
             Navigator.of(context).pushNamed(newChatRoute);
@@ -76,89 +89,23 @@ class _MainViewState extends State<MainView> {
       
       body: GridView.count(
         primary: false,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(40),
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        crossAxisCount: 2,
+        crossAxisCount: 1,
         //gridDelegate: null,
         children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.deepOrange[100],
-            child: const UpscContent(),
-            
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.deepOrange[100],
-            child: const Card(
-              borderOnForeground: true,
-              
-              ),            
-          ),
-
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.deepOrange[100],
-            child: const Card(
-              borderOnForeground: true,
-              ),            
-          ),
-
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.deepOrange[100],
-            child: const Card(
-              borderOnForeground: true,
-              ),            
-          ),
-
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.deepOrange[100],
-            child: const Card(
-              borderOnForeground: true,
-              ),            
-          ),
-
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.deepOrange[100],
-            child: const Card(
-              borderOnForeground: true,
-              ),            
-          ),
-
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.deepOrange[100],
-            child: const Card(
-              borderOnForeground: true,
-              ),            
-          ),
-
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.deepOrange[100],
-            child: const Card(
-              borderOnForeground: true,
-              ),            
-          ),
-
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.deepOrange[100],
-            child: const Card(
-              borderOnForeground: true,
-              ),            
-          ),
-
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.deepOrange[100],
-            child: const Card(
-              borderOnForeground: true,
-              ),            
+          Center(
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(45),
+                  color: const Color.fromARGB(255, 227, 234, 240),
+                  child: const UpscContent(),
+                  
+                ),
+              ],
+            ),
           ),
 
 
@@ -180,30 +127,57 @@ class UpscContent extends StatefulWidget {
 }
 
 class _UpscContentState extends State<UpscContent> {
+  final FocusNode _textFieldFocus = FocusNode();
+  final TextEditingController _textController = TextEditingController();
+
+  Future<void> _sendChatMessage() async{
+    await Navigator.of(context).pushNamed(newChatRoute);
+  }
+  
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        const ListTile(
-          leading: Icon(Icons.book),
-          title: Text("UPSC"),
-          subtitle: Text("data"),
+    
+    final textFieldDecoration = InputDecoration(
+      contentPadding: const EdgeInsets.all(10),
+      hintText: 'Ask me anything!',
+      border: OutlineInputBorder(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(14),
         ),
-        Row(mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                TextButton(
-                  child: const Text('Start learning'),
-                  onPressed: () {Navigator.of(context).pushNamed(newChatRoute);},
-                ),
-                
-                const SizedBox(width: 8),
-              ],
-            ),
-      ]
+        borderSide: BorderSide(
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(14),
+        ),
+        borderSide: BorderSide(
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+      ),
+    );
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      autofocus: true,
+                      focusNode: _textFieldFocus,
+                      decoration: textFieldDecoration,
+                      controller: _textController,
+                      onTap: _sendChatMessage,
+                    ),
+                  ),
+                ]
+              ),
+    
     );
   }
 }
+
+
 
 Future<bool> showLogOutDialog(BuildContext context) {
   return showDialog<bool>(

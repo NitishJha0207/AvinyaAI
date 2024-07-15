@@ -25,6 +25,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.4.1"
+  animated_background:
+    dependency: "direct main"
+    description:
+      name: animated_background
+      sha256: "24b05a6dca2cb0231b011f9e8fd2e9d8060faac08a78cf0643915bb7d6e9b03b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   args:
     dependency: transitive
     description:
@@ -137,6 +145,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
+  dio:
+    dependency: transitive
+    description:
+      name: dio
+      sha256: e17f6b3097b8c51b72c74c9f071a605c47bcc8893839bd66732457a5ebe73714
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.5.0+1"
+  dio_web_adapter:
+    dependency: transitive
+    description:
+      name: dio_web_adapter
+      sha256: "36c5b2d79eb17cdae41e974b7a8284fec631651d2a6f39a8a2ff22327e90aeac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   dotenv:
     dependency: "direct main"
     description:
@@ -310,6 +334,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_gemini:
+    dependency: "direct main"
+    description:
+      name: flutter_gemini
+      sha256: c6079dc6f95c6191e609e9cc627c268ef0bf2526cbba6a2f61aa41ea0053e9a0
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.4"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -344,6 +376,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  freezed_annotation:
+    dependency: transitive
+    description:
+      name: freezed_annotation
+      sha256: f9f6597ac43cc262fa7d7f2e65259a6060c23a560525d1f2631be374540f2a9b
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.3"
   frontend_server_client:
     dependency: transitive
     description:
@@ -368,6 +408,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.3"
+  google_identity_services_web:
+    dependency: transitive
+    description:
+      name: google_identity_services_web
+      sha256: "9482364c9f8b7bd36902572ebc3a7c2b5c8ee57a9c93e6eb5099c1a9ec5265d8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1+1"
+  google_sign_in:
+    dependency: "direct main"
+    description:
+      name: google_sign_in
+      sha256: "0b8787cb9c1a68ad398e8010e8c8766bfa33556d2ab97c439fb4137756d7308f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.2.1"
+  google_sign_in_android:
+    dependency: transitive
+    description:
+      name: google_sign_in_android
+      sha256: d30fb34b659679ea74397e9748b4ab5d720720d57dcc79538f1b3c4a68654cb3
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.27"
+  google_sign_in_ios:
+    dependency: transitive
+    description:
+      name: google_sign_in_ios
+      sha256: a058c9880be456f21e2e8571c1126eaacd570bdc5b6c6d9d15aea4bdf22ca9fe
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.7.6"
+  google_sign_in_platform_interface:
+    dependency: transitive
+    description:
+      name: google_sign_in_platform_interface
+      sha256: "1f6e5787d7a120cc0359ddf315c92309069171306242e181c09472d1b00a2971"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.5"
+  google_sign_in_web:
+    dependency: "direct main"
+    description:
+      name: google_sign_in_web
+      sha256: d606264c7a1a526a3aa79d938b85a601d8589731a478bd4a3dcbdeb14a572228
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.12.4+1"
   http:
     dependency: "direct main"
     description:
@@ -472,6 +560,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.1"
+  json_annotation:
+    dependency: transitive
+    description:
+      name: json_annotation
+      sha256: "1ce844379ca14835a50d2f019a3099f419082cfdd231cd86a142af94dd5c6bb1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.9.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -693,6 +789,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  social_login_buttons:
+    dependency: "direct main"
+    description:
+      name: social_login_buttons
+      sha256: "052b88f1a9fed69430097093c02ed738a0fbf4c5fa4b0ed0ce4e8aa3caf592de"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.7"
   source_map_stack_trace:
     dependency: transitive
     description:

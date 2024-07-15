@@ -5,7 +5,7 @@ import 'package:aiguru/services/auth/auth_exceptions.dart';
 import 'package:aiguru/services/auth/auth_vertexai.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, FirebaseAuthException;
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
   @override
@@ -118,7 +118,27 @@ class FirebaseAuthProvider implements AuthProvider {
   @override
   NewChat get currentChat => currentChat;
   
+  
 
+  
+  
+  @override
+  Future<void> handleSignIn() async {
+  const List<String> scopes = <String>[
+  'email',
+  'https://www.googleapis.com/auth/contacts.readonly',
+   ];
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    // Optional clientId
+    // clientId: 'your-client_id.apps.googleusercontent.com',
+    scopes: scopes,
+  );
+  try {
+    await googleSignIn.signIn();
+  } catch (error) {
+    //print(error);
+  }
+}
 
 
   

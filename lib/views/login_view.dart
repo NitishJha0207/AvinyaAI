@@ -3,6 +3,7 @@ import 'package:aiguru/services/auth/auth_exceptions.dart';
 import 'package:aiguru/services/auth/auth_service.dart';
 import 'package:aiguru/utilities/show_error_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:social_login_buttons/social_login_buttons.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -106,11 +107,16 @@ class _LoginViewState extends State<LoginView> {
                 );
             }, 
             child: const Text("Not registered yet? Register here!"),
+            ),
+
+            SocialLoginButton(
+                buttonType: SocialLoginButtonType.google,
+                onPressed: () {
+                  Navigator.of(context).pushNamed(googleSignInRoute);
+                },
             )
         ],
       ),
     );
   }     
 }
-
-

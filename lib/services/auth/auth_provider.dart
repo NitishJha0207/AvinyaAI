@@ -18,6 +18,8 @@ abstract class AuthProvider{
   Future<void> sendEmailVerification();
   GenAI get currentModel;
   NewChat get currentChat;
+  Future<void> handleSignIn();
+  
 }
 
 

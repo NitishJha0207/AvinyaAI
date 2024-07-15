@@ -47,4 +47,7 @@ class AuthService implements AuthProvider {
   
   @override
   NewChat get currentChat => provider.currentChat;
+  
+  @override
+  Future<void> handleSignIn()  => provider.handleSignIn();
 }

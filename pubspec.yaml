@@ -48,6 +48,11 @@ dependencies:
   firebase_vertexai: ^0.2.2+1
   flutter_markdown: ^0.7.3
   dotenv: ^3.0.0
+  animated_background: ^2.0.0
+  google_sign_in: ^6.2.1
+  google_sign_in_web: ^0.12.4+1
+  flutter_gemini: ^2.0.4
+  social_login_buttons: ^1.0.7
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +81,8 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+      - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

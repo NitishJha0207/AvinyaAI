@@ -1,7 +1,5 @@
 import 'package:aiguru/services/auth/auth_service.dart';
-//import 'package:aiguru/services/auth/auth_vertexai.dart';
 import 'package:firebase_vertexai/firebase_vertexai.dart';
-//import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -45,11 +43,11 @@ class _ChatWidgetState extends State<ChatWidget> {
     initFirebase().then((value) {
       _model = FirebaseVertexAI.instance.generativeModel(
         //model: 'gemini-1.5-flash-preview-0514',
-        model: 'gemini-1.5-flash',
+        model: 'gemini-1.5-pro',
       );
       _functionCallModel = FirebaseVertexAI.instance.generativeModel(
         //model: 'gemini-1.5-flash-preview-0514',
-        model: 'gemini-1.5-flash',
+        model: 'gemini-1.5-pro',
         tools: [
           Tool(functionDeclarations: [exchangeRateTool]),
         ],
@@ -117,7 +115,7 @@ class _ChatWidgetState extends State<ChatWidget> {
   Widget build(BuildContext context) {
     final textFieldDecoration = InputDecoration(
       contentPadding: const EdgeInsets.all(25),
-      hintText: 'Enter a prompt...',
+      hintText: 'write your query.',
       border: OutlineInputBorder(
         borderRadius: const BorderRadius.all(
           Radius.circular(14),
@@ -154,15 +152,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                       );
                     },
                     itemCount: _generatedContent.length,
-                  )
-                //: ListView(
-                  //  children: const [
-                   //   Text(
-                    //    'No API key found. Please provide an API Key using '
-                    //    "'--dart-define' to set the 'API_KEY' declaration.",
-                    //  ),
-                   // ],
-                 // ),
+                  )                
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -180,51 +170,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                     onSubmitted: _sendChatMessage,
                   ),
                 ),
-                const SizedBox.square(dimension: 15),
-                
-                IconButton(
-                  tooltip: 'function calling Test',
-                  onPressed: !_loading
-                      ? () async {
-                          await _testFunctionCalling();
-                        }
-                      : null,
-                  icon: Icon(
-                    Icons.functions,
-                    color: _loading
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-
-                IconButton(
-                  tooltip: 'image prompt',
-                  onPressed: !_loading
-                      ? () async {
-                          await _sendImagePrompt(_textController.text);
-                        }
-                      : null,
-                  icon: Icon(
-                    Icons.image,
-                    color: _loading
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                IconButton(
-                  tooltip: 'storage prompt',
-                  onPressed: !_loading
-                      ? () async {
-                          await _sendStorageUriPrompt(_textController.text);
-                        }
-                      : null,
-                  icon: Icon(
-                    Icons.folder,
-                    color: _loading
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).colorScheme.primary,
-                  ),
-                ),
+                const SizedBox.square(dimension: 15), 
                 if (!_loading)
                   IconButton(
                     onPressed: () async {
