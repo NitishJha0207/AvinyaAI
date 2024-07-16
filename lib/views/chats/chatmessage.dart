@@ -323,42 +323,7 @@ class _ChatWidgetState extends State<ChatWidget> {
     }
   }
 
-  Future<void> _testFunctionCalling() async {
-    setState(() {
-      _loading = true;
-    });
-    final chat = _functionCallModel.startChat();
-    const prompt = 'What would be USD value for next 45 days?';
-
-    // Send the message to the generative model.
-    var response = await chat.sendMessage(Content.text(prompt));
-
-    final functionCalls = response.functionCalls.toList();
-    // When the model response with a function call, invoke the function.
-    if (functionCalls.isNotEmpty) {
-      final functionCall = functionCalls.first;
-      final result = switch (functionCall.name) {
-        // Forward arguments to the hypothetical API.
-        'findExchangeRate' => await findExchangeRate(functionCall.args),
-        // Throw an exception if the model attempted to call a function that was
-        // not declared.
-        _ => throw UnimplementedError(
-            'Function not implemented: ${functionCall.name}',
-          )
-      };
-      // Send the response to the model so that it can use the result to generate
-      // text for the user.
-      response = await chat
-          .sendMessage(Content.functionResponse(functionCall.name, result));
-    }
-    // When the model responds with non-null text content, print it.
-    if (response.text case final text?) {
-      _generatedContent.add((image: null, text: text, fromUser: false));
-      setState(() {
-        _loading = false;
-      });
-    }
-  }
+  
 
   Future<void> _testCountToken() async {
     setState(() {

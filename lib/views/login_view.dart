@@ -109,12 +109,12 @@ class _LoginViewState extends State<LoginView> {
             child: const Text("Not registered yet? Register here!"),
             ),
 
-            SocialLoginButton(
-                buttonType: SocialLoginButtonType.google,
-                onPressed: () {
-                  Navigator.of(context).pushNamed(googleSignInRoute);
-                },
-            )
+            //SocialLoginButton(
+            //    buttonType: SocialLoginButtonType.google,
+            //    onPressed: () {
+            //      Navigator.of(context).pushNamed(googleSignInRoute);
+             //   },
+            //)
         ],
       ),
     );
