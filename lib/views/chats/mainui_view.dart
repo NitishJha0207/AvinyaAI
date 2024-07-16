@@ -17,7 +17,12 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   late final MainService _mainsService;
   String get userEmail => AuthService.firebase().currentUser!.email!;
-  final FocusNode _textFieldFocus = FocusNode();
+  final List<String> topics =[
+    'Mathematics',
+    'Science',
+    'History',
+    'Programming',
+  ];
 
   @override
   void initState() {
@@ -32,14 +37,12 @@ class _MainViewState extends State<MainView> {
     super.dispose();
   }
 
-  Future<void> _sendChatMessage(String message) async{
-  await Navigator.of(context).pushNamed(newChatRoute);
-
-}
+ 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         shadowColor: const Color.fromARGB(255, 13, 14, 15),
         backgroundColor:const Color.fromARGB(255, 105, 175, 237),
@@ -48,9 +51,10 @@ class _MainViewState extends State<MainView> {
           padding: const EdgeInsets.all(8.0),
           child: Image.asset('assets/app_logo.png'), // Replace with your logo
         ),
-        title: const Text("Avinya.AI", style: TextStyle(
-          
-        ),),
+        title: const Text("Avinya.AI", style: TextStyle(        
+        ),        
+        ),
+        
         actions: [
           IconButton(onPressed: () {
             Navigator.of(context).pushNamed(newChatRoute);
@@ -92,92 +96,94 @@ class _MainViewState extends State<MainView> {
         padding: const EdgeInsets.all(40),
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        crossAxisCount: 1,
+        crossAxisCount: 1, 
         //gridDelegate: null,
         children: [
-          Center(
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(45),
-                  color: const Color.fromARGB(255, 227, 234, 240),
-                  child: const UpscContent(),
-                  
+          Column(
+            children: [
+              Center(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () { 
+                          Navigator.of(context).pushNamed(newChatRoute);
+                         }, 
+                        style: const ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(Color.fromARGB(255, 122, 243, 243)),
+                        ),
+                        child: const Text('Mathematics'),
+                        )
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+              Center(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () { 
+                          Navigator.of(context).pushNamed(newChatRoute);
+                        }, 
+                        style: const ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(Color.fromARGB(255, 122, 243, 243)),
+                        ),
+                        child: const Text('History'),
+                        )
+                    ),
+                  ],
+                ),
+              ),
+              Center(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () { 
+                          Navigator.of(context).pushNamed(newChatRoute);
+                        }, 
+                        style: const ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(Color.fromARGB(255, 122, 243, 243)),
+                        ),
+                        child: const Text('Physics'),
+                        )
+                    ),
+                  ],
+                ),
+              ),
+              Center(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () { 
+                          Navigator.of(context).pushNamed(newChatRoute);
+                        }, 
+                        style: const ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(Color.fromARGB(255, 122, 243, 243)),
+                        ),
+                        child: const Text('Or, Ask me anythin!'),
+                        )
+                    ),
+                  ],
+                ),
+              ),
 
+            ],
+          ),
+          
 
      ],
      
     ),
-           
+
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,     
     
       // Or any other location
     );
   }
 }
-
-class UpscContent extends StatefulWidget {
-  const UpscContent({super.key});
-
-  @override
-  State<UpscContent> createState() => _UpscContentState();
-}
-
-class _UpscContentState extends State<UpscContent> {
-  final FocusNode _textFieldFocus = FocusNode();
-  final TextEditingController _textController = TextEditingController();
-
-  Future<void> _sendChatMessage() async{
-    await Navigator.of(context).pushNamed(newChatRoute);
-  }
-  
-  @override
-  Widget build(BuildContext context) {
-    
-    final textFieldDecoration = InputDecoration(
-      contentPadding: const EdgeInsets.all(10),
-      hintText: 'Ask me anything!',
-      border: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(14),
-        ),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.secondary,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(14),
-        ),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.secondary,
-        ),
-      ),
-    );
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      autofocus: true,
-                      focusNode: _textFieldFocus,
-                      decoration: textFieldDecoration,
-                      controller: _textController,
-                      onTap: _sendChatMessage,
-                    ),
-                  ),
-                ]
-              ),
-    
-    );
-  }
-}
-
-
 
 Future<bool> showLogOutDialog(BuildContext context) {
   return showDialog<bool>(

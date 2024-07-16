@@ -1,6 +1,7 @@
 import 'package:aiguru/services/auth/auth_exceptions.dart';
 import 'package:aiguru/services/auth/auth_provider.dart';
 import 'package:aiguru/services/auth/auth_user.dart';
+import 'package:aiguru/services/auth/auth_vertexai.dart';
 import 'package:test/test.dart';
 
 
@@ -134,6 +135,20 @@ class MockAuthProvider implements AuthProvider{
     if(user ==null) throw UserNotFoundAuthException();
     const newUser = AuthUser(isEmailVerified: true, email: 'abcd@efg.com',);
     _user = newUser;
+  }
+
+  @override
+  
+  NewChat get currentChat => throw UnimplementedError();
+
+  @override
+  
+  GenAI get currentModel => throw UnimplementedError();
+
+  @override
+  Future<void> handleSignIn() {
+    
+    throw UnimplementedError();
   }
 
 }
