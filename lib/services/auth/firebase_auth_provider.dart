@@ -5,6 +5,7 @@ import 'package:aiguru/services/auth/auth_exceptions.dart';
 import 'package:aiguru/services/auth/auth_vertexai.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, FirebaseAuthException;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthProvider implements AuthProvider {

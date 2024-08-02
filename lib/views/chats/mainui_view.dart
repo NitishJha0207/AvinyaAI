@@ -2,6 +2,7 @@ import 'package:aiguru/constants/routes.dart';
 import 'package:aiguru/enums/menu_action.dart';
 import 'package:aiguru/services/auth/auth_service.dart';
 import 'package:aiguru/services/crud/mainui_service.dart';
+import 'package:aiguru/views/chats/mathematics_prompt.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -45,14 +46,17 @@ class _MainViewState extends State<MainView> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         shadowColor: const Color.fromARGB(255, 13, 14, 15),
-        backgroundColor:const Color.fromARGB(255, 105, 175, 237),
+        backgroundColor:const Color.fromARGB(255, 122, 243, 243),
         centerTitle: true,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Image.asset('assets/app_logo.png'), // Replace with your logo
         ),
-        title: const Text("Avinya.AI", style: TextStyle(        
-        ),        
+        title: const Text(
+          "Avinya.AI", 
+          style: TextStyle( 
+            fontWeight: FontWeight.bold,       
+          ),        
         ),
         
         actions: [
@@ -107,7 +111,8 @@ class _MainViewState extends State<MainView> {
                     Expanded(
                       child: TextButton(
                         onPressed: () { 
-                          Navigator.of(context).pushNamed(newChatRoute);
+                          Navigator.of(context).pushNamed(newMathematicsChatRoute);
+                          
                          }, 
                         style: const ButtonStyle(
                           backgroundColor: WidgetStatePropertyAll(Color.fromARGB(255, 122, 243, 243)),

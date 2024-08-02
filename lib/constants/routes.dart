@@ -5,3 +5,5 @@ const verifyEmailRoute = '/verify-email/';
 const newChatRoute = '/chats/new-chat/';
 const chatMessageRoute = '/chats/chatmessage/';
 const googleSignInRoute = '/google-sign-in/';
+const mathematicsChatRoute ='/chats/mathematics/';
+const newMathematicsChatRoute ='/chats/mathematics-chat/';

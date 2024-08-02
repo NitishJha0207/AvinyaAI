@@ -84,7 +84,7 @@ class _MathematicsPromptState extends State<MathematicsPrompt> {
     ),
   );
 
-   Future<void> initFirebase() async {
+  Future<void> initFirebase() async {
     await AuthService.firebase().initialze();
   }
 
@@ -189,38 +189,98 @@ Future<void> _testFunctionCalling(String message) async {
       _loading = true;
     });
     final chat = _functionCallModel.startChat();
-    const prompt = 'What would be USD value for next 45 days?';
+    const prompt = 'You are a Mathematics teacher based in India. You are expert in Mathematics. Ask users which graded they belong to and then prepare a learning path for the user based on the provided grade.';
 
     // Send the message to the generative model.
-    var response = await chat.sendMessage(Content.text(prompt));
+    // var response = await chat.sendMessage(Content.text(prompt));
+    // final text= response.text;
+    // _generatedContent.add((image: null, text: text, fromUser: false));
 
-    final functionCalls = response.functionCalls.toList();
-    // When the model response with a function call, invoke the function.
-    if (functionCalls.isNotEmpty) {
-      final functionCall = functionCalls.first;
-      final result = switch (functionCall.name) {
-        // Forward arguments to the hypothetical API.
-        'findExchangeRate' => await findExchangeRate(functionCall.args),
-        // Throw an exception if the model attempted to call a function that was
-        // not declared.
-        _ => throw UnimplementedError(
-            'Function not implemented: ${functionCall.name}',
-          )
-      };
-      // Send the response to the model so that it can use the result to generate
-      // text for the user.
-      response = await chat
-          .sendMessage(Content.functionResponse(functionCall.name, result));
-    }
-    // When the model responds with non-null text content, print it.
-    if (response.text case final text?) {
+    try {
+      _generatedContent.add((image: null, text: message, fromUser: true));
+      final response = await _chat.sendMessage(
+        Content.text(message),
+      );
+      final text = response.text;
       _generatedContent.add((image: null, text: text, fromUser: false));
+
+      if (text == null) {
+        _showError('No response from API.');
+        return;
+      } else {
+        setState(() {
+          _loading = false;
+          _scrollDown();
+        });
+      }
+    } catch (e) {
+      _showError(e.toString());
       setState(() {
         _loading = false;
       });
+    } finally {
+      _textController.clear();
+      setState(() {
+        _loading = false;
+      });
+      _textFieldFocus.requestFocus();
     }
+
+    //final functionCalls = response.functionCalls.toList();
+    // When the model response with a function call, invoke the function.
+    //if (functionCalls.isNotEmpty) {
+     // final functionCall = functionCalls.first;
+     // final result = switch (functionCall.name) {
+     //   // Forward arguments to the hypothetical API.
+     //   'findExchangeRate' => await findExchangeRate(functionCall.args),
+        // Throw an exception if the model attempted to call a function that was
+        // not declared.
+    //    _ => throw UnimplementedError(
+    //        'Function not implemented: ${functionCall.name}',
+    //      )
+    //  };
+      // Send the response to the model so that it can use the result to generate
+      // text for the user.
+     // response = await chat
+     //     .sendMessage(Content.functionResponse(functionCall.name, result));
+    }
+
+     void _showError(String message) {
+    showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Something went wrong'),
+          content: SingleChildScrollView(
+            child: SelectableText(message),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            )
+          ],
+        );
+      },
+    );
+    }    
   }
-}
+    // When the model responds with non-null text content, print it.
+    //if (response.text case final text?) {
+    //  _generatedContent.add((image: null, text: text, fromUser: false));
+    //  setState(() {
+    //    _loading = false;
+    //  });
+    //}
+
+   
+
+
+
+
+
  
 class MessageWidget extends StatelessWidget {
   const MessageWidget({

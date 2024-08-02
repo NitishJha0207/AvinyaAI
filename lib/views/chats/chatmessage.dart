@@ -93,7 +93,7 @@ class _ChatWidgetState extends State<ChatWidget> {
     ),
   );
 
-   Future<void> initFirebase() async {
+  Future<void> initFirebase() async {
     await AuthService.firebase().initialze();
   }
 

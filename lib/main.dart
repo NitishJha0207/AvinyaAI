@@ -1,6 +1,8 @@
 import 'package:aiguru/constants/routes.dart';
 import 'package:aiguru/services/auth/auth_service.dart';
 import 'package:aiguru/views/chats/chatmessage.dart';
+import 'package:aiguru/views/chats/mathematics_chat_view.dart';
+import 'package:aiguru/views/chats/mathematics_prompt.dart';
 import 'package:aiguru/views/chats/new_chat_view.dart';
 import 'package:aiguru/views/google_signin_view.dart';
 import 'package:aiguru/views/login_view.dart';
@@ -30,6 +32,8 @@ void main() async {
         newChatRoute: (context) => const NewChatView(title: "Avinya",),
         chatMessageRoute: (context) => const ChatWidget(),
         googleSignInRoute: (context) => const SignInDemo(),
+        mathematicsChatRoute: (context)=> const MathematicsPrompt(),
+        newMathematicsChatRoute: (context)=> const MathematicsChatView(title: 'Avinya-Mathematics'),
       }
     ));
 }
