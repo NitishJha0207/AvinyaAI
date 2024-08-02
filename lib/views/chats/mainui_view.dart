@@ -2,10 +2,9 @@ import 'package:aiguru/constants/routes.dart';
 import 'package:aiguru/enums/menu_action.dart';
 import 'package:aiguru/services/auth/auth_service.dart';
 import 'package:aiguru/services/crud/mainui_service.dart';
-import 'package:aiguru/views/chats/mathematics_prompt.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+//import 'package:flutter/widgets.dart';
 //import 'package:path/path.dart';
 
 class MainView extends StatefulWidget {

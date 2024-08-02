@@ -221,7 +221,15 @@ class _NewChatViewState extends State<NewChatView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        backgroundColor: const Color.fromARGB(255, 122, 243, 243),
+        title: Text(
+          widget.title,
+          style: const TextStyle( 
+            fontWeight: FontWeight.bold,       
+          ),
+          ),
+          centerTitle: true,
+        
       ),
       body: const ChatWidget(),
       //body: Column(

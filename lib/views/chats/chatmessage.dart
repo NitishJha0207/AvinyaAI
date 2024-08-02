@@ -114,28 +114,33 @@ class _ChatWidgetState extends State<ChatWidget> {
   @override
   Widget build(BuildContext context) {
     final textFieldDecoration = InputDecoration(
-      contentPadding: const EdgeInsets.all(25),
+      contentPadding: const EdgeInsets.all(15),
       hintText: 'write your query.',
       border: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(14),
-        ),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.secondary,
-        ),
+        borderRadius: BorderRadius.circular(8.0), // Rounded corners
+        borderSide: const BorderSide(color: Colors.grey), // Customize border color
+        //borderRadius: const BorderRadius.all(
+        //  Radius.circular(14),
+        //),
+        
+        //borderSide: BorderSide(
+        //  color: Theme.of(context).colorScheme.secondary,
+        //),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(14),
-        ),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.secondary,
-        ),
+        borderRadius: BorderRadius.circular(20.0),
+        borderSide: const BorderSide(color: Color.fromARGB(255, 122, 243, 243), width: 4.0), // Visual feedback
+        //borderRadius: const BorderRadius.all(
+        //  Radius.circular(14),
+        //),
+        //borderSide: BorderSide(
+        // color: Theme.of(context).colorScheme.secondary,
+        //),
       ),
     );
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,8 +161,8 @@ class _ChatWidgetState extends State<ChatWidget> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 25,
-              horizontal: 15,
+              vertical: 5,
+              horizontal: 0,
             ),
             child: Row(
               children: [
@@ -170,15 +175,15 @@ class _ChatWidgetState extends State<ChatWidget> {
                     onSubmitted: _sendChatMessage,
                   ),
                 ),
-                const SizedBox.square(dimension: 15), 
+                const SizedBox.square(dimension: 5), 
                 if (!_loading)
                   IconButton(
                     onPressed: () async {
                       await _sendChatMessage(_textController.text);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.send,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Color.fromARGB(255, 6, 211, 211),
                     ),
                   )
                 else

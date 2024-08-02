@@ -35,7 +35,12 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 122, 243, 243),
-        title: const Text('Login'),
+        title: const Text(
+          'Login',
+           style: TextStyle( 
+              fontWeight: FontWeight.bold,       
+           ),
+          ),
         centerTitle: true,
         //shadowColor: const Color.fromRGBO(7, 255, 172, 1),
         ),
@@ -62,7 +67,7 @@ class _LoginViewState extends State<LoginView> {
                     // 2. Adding a Label
                     labelText: 'Email',        // Clear label for the field
                     labelStyle: const TextStyle(
-                      color:  Colors.blue,      // Example color, choose your own theme
+                      color:  Color.fromARGB(255, 5, 203, 203),      // Example color, choose your own theme
                     ),
               
                     // 3. Styling the Border
@@ -108,7 +113,7 @@ class _LoginViewState extends State<LoginView> {
                       // 2. Adding a Label
                       labelText: 'Password',        // Clear label for the field
                       labelStyle: const TextStyle(
-                        color:  Colors.blue,      // Example color, choose your own theme
+                        color:  Color.fromARGB(255, 5, 203, 203),      // Example color, choose your own theme
                       ),
                 
                       // 3. Styling the Border
@@ -124,7 +129,7 @@ class _LoginViewState extends State<LoginView> {
                       ), 
                 
                       // 5. Optional: Adding a Prefix Icon
-                      prefixIcon: const Icon(Icons.email, color: Colors.grey), 
+                      prefixIcon: const Icon(Icons.password, color: Colors.grey), 
                 
                       // 6. Content Padding for better spacing
                       contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0), 
@@ -171,7 +176,14 @@ class _LoginViewState extends State<LoginView> {
                       );
                 }              
               },
-              child: const Text('Login'),
+              child: const Text(
+              'Login',
+              style: TextStyle( 
+                color:  Color.fromARGB(255, 5, 203, 203),
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,       
+                ),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -180,7 +192,14 @@ class _LoginViewState extends State<LoginView> {
                   (route)=>false,
                   );
               }, 
-              child: const Text("Not registered yet? Register here!"),
+              child: const Text(
+                "Not registered yet? Register here!",
+                style: TextStyle( 
+                color:  Color.fromARGB(255, 5, 203, 203),
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,       
+                ),
+                ),
               ),
         
               //SocialLoginButton(

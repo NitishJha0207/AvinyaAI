@@ -34,7 +34,13 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 122, 243, 243),
-        title : const Text('Register'),
+        title : const Text(
+          'Register',
+          style: TextStyle( 
+            fontWeight: FontWeight.bold,       
+          ),
+          ),
+        
         centerTitle: true,
         ), 
       
@@ -61,7 +67,7 @@ class _RegisterViewState extends State<RegisterView> {
                     // 2. Adding a Label
                     labelText: 'Email',        // Clear label for the field
                     labelStyle: const TextStyle(
-                      color:  Colors.blue,      // Example color, choose your own theme
+                      color:  Color.fromARGB(255, 5, 203, 203),      // Example color, choose your own theme
                     ),
               
                     // 3. Styling the Border
@@ -106,7 +112,7 @@ class _RegisterViewState extends State<RegisterView> {
                       // 2. Adding a Label
                       labelText: 'Password',        // Clear label for the field
                       labelStyle: const TextStyle(
-                        color:  Colors.blue,      // Example color, choose your own theme
+                        color:  Color.fromARGB(255, 5, 203, 203),      // Example color, choose your own theme
                       ),
                 
                       // 3. Styling the Border
@@ -122,7 +128,7 @@ class _RegisterViewState extends State<RegisterView> {
                       ), 
                 
                       // 5. Optional: Adding a Prefix Icon
-                      prefixIcon: const Icon(Icons.email, color: Colors.grey), 
+                      prefixIcon: const Icon(Icons.password, color: Colors.grey), 
                 
                       // 6. Content Padding for better spacing
                       contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0), 
@@ -165,7 +171,14 @@ class _RegisterViewState extends State<RegisterView> {
                       );                
                 }              
             },
-              child: const Text('Register'),
+              child: const Text(
+              'Register',
+              style: TextStyle( 
+                color:  Color.fromARGB(255, 5, 203, 203),
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,       
+                ),
+              ),
               
         
             ),
@@ -176,7 +189,14 @@ class _RegisterViewState extends State<RegisterView> {
                 (route)=>false,
                 );
               }, 
-              child: const Text('Already a member? Sign in here!'))
+              child: const Text(
+                'Already a member? Sign in here!',
+                style: TextStyle( 
+                color: Color.fromARGB(255, 5, 203, 203),
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,       
+                ),
+                ))
           ],
         ),
       ),

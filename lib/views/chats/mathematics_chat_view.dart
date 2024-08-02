@@ -220,8 +220,15 @@ class _MathematicsChatViewState extends State<MathematicsChatView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+      appBar: AppBar(        
+        backgroundColor: const Color.fromARGB(255, 122, 243, 243),
+        title: Text(
+          widget.title,
+          style: const TextStyle( 
+            fontWeight: FontWeight.bold,       
+          ),
+        ),
+        centerTitle: true,
       ),
       body: const MathematicsPrompt(),
       //body: Column(
