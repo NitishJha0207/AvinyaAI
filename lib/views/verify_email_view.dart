@@ -24,15 +24,6 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //const Text("Please verify your email address by clicking on the verification link sent to your registered email address."),
-            //const Text("You may press the button below if you have not received the link."),
-            //TextButton(
-            //  onPressed: () async{            
-            //  await AuthService.firebase().sendEmailVerification();
-            //  await showMessageDialog(context, "Verification link sent to your registered email ID.");
-            //},
-            //child: const Text('Send email verification'),
-            //),
             const SizedBox(height: 30), // Add spacing from the top
 
                 // Title Text 
