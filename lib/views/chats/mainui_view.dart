@@ -4,6 +4,7 @@ import 'package:aiguru/services/auth/auth_service.dart';
 import 'package:aiguru/services/crud/mainui_service.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 //import 'package:flutter/widgets.dart';
 //import 'package:path/path.dart';
 
@@ -15,6 +16,7 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
+  XFile? _image;
   late final MainService _mainsService;
   String get userEmail => AuthService.firebase().currentUser!.email!;
   final List<String> topics =[
@@ -36,6 +38,17 @@ class _MainViewState extends State<MainView> {
     _mainsService.close();
     super.dispose();
   }
+
+  Future<void> _getImageFromCamera() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+
+    if(image != null){
+      _image = image;
+    }
+  }
+
+
 
  
 
@@ -128,7 +141,7 @@ class _MainViewState extends State<MainView> {
                     Expanded(
                       child: TextButton(
                         onPressed: () { 
-                          Navigator.of(context).pushNamed(newChatRoute);
+                          Navigator.of(context).pushNamed(historyChatRoute);
                         }, 
                         style: const ButtonStyle(
                           backgroundColor: WidgetStatePropertyAll(Color.fromARGB(255, 122, 243, 243)),
@@ -145,7 +158,7 @@ class _MainViewState extends State<MainView> {
                     Expanded(
                       child: TextButton(
                         onPressed: () { 
-                          Navigator.of(context).pushNamed(newChatRoute);
+                          Navigator.of(context).pushNamed(physicsChatRoute);
                         }, 
                         style: const ButtonStyle(
                           backgroundColor: WidgetStatePropertyAll(Color.fromARGB(255, 122, 243, 243)),
@@ -162,12 +175,29 @@ class _MainViewState extends State<MainView> {
                     Expanded(
                       child: TextButton(
                         onPressed: () { 
+                          Navigator.of(context).pushNamed(chemistryChatRoute);
+                        }, 
+                        style: const ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(Color.fromARGB(255, 122, 243, 243)),
+                        ),
+                        child: const Text('Chemistry'),
+                        )
+                    ),
+                  ],
+                ),
+              ),
+              Center(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () { 
                           Navigator.of(context).pushNamed(newChatRoute);
                         }, 
                         style: const ButtonStyle(
                           backgroundColor: WidgetStatePropertyAll(Color.fromARGB(255, 122, 243, 243)),
                         ),
-                        child: const Text('Or, Ask me anythin!'),
+                        child: const Text('Or, Ask me anything !'),
                         )
                     ),
                   ],
@@ -188,6 +218,7 @@ class _MainViewState extends State<MainView> {
     );
   }
 }
+
 
 Future<bool> showLogOutDialog(BuildContext context) {
   return showDialog<bool>(

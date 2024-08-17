@@ -19,7 +19,7 @@ class NewChatView extends StatefulWidget {
   State<NewChatView> createState() => _NewChatViewState();
 }
 
-class GeminiClient {
+class GeminiClient { 
   GeminiClient({
     required this.model,
   });

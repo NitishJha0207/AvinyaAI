@@ -1,17 +1,17 @@
 import 'package:aiguru/services/auth/auth_service.dart';
 import 'package:aiguru/services/crud/mainui_service.dart';
-import 'package:aiguru/views/chats/mathematics_prompt.dart';
+import 'package:aiguru/views/chats/history/history_prompt.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart'; 
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 
-class MathematicsChatView extends StatefulWidget {
-  const MathematicsChatView({super.key, required this.title});
+class HistoryChatView extends StatefulWidget {
+  const HistoryChatView({super.key, required this.title});
   final String title;
 
   @override
-  State<MathematicsChatView> createState() => _MathematicsChatViewState();
+  State<HistoryChatView> createState() => _HistoryChatViewState();
 }
 
 class GeminiClient {
@@ -73,7 +73,7 @@ class ChatMessageWidget extends StatelessWidget {
   }
 }
 
-class _MathematicsChatViewState extends State<MathematicsChatView> {
+class _HistoryChatViewState extends State<HistoryChatView> {
 
   DatabaseMain? _chat;
   late final MainService _chatsService;
@@ -225,7 +225,7 @@ class _MathematicsChatViewState extends State<MathematicsChatView> {
         ),
         centerTitle: true,
       ),
-      body: const MathematicsPrompt(),
+      body: const HistoryPrompt(),
     ); 
   }
 }

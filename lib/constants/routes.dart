@@ -7,3 +7,7 @@ const chatMessageRoute = '/chats/chatmessage/';
 const googleSignInRoute = '/google-sign-in/';
 const mathematicsChatRoute ='/chats/mathematics/';
 const newMathematicsChatRoute ='/chats/mathematics-chat/';
+const chatFromCamera = '/chats/chatfromcamera.dart';
+const physicsChatRoute = '/chats/physics_chat_view.dart';
+const historyChatRoute = '/chat/history/history_chat_view.dart';
+const chemistryChatRoute = '/chat/chemistry/chemistry_chat_view.dart';

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:aiguru/services/crud/crud_exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
+//import 'package:sqflite_common_ffi/sqflite_common_ffi.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' show join;
 
@@ -234,6 +235,8 @@ class MainService {
 
   Future<void> _ensureDbIsOpen() async {
     try {
+      //WidgetsFlutterBinding.ensureInitialized();
+      //databaseFactory = databaseFactoryFfi;
       await open();
     } on DatabaseAlreadyOpenException{
       //empty

@@ -1,29 +1,20 @@
 import 'package:aiguru/services/auth/auth_service.dart';
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-//import 'package:google_generative_ai/google_generative_ai.dart';
-
-//const String _apiKey = String.fromEnvironment('API_KEY');
-
-
-class ChatWidget extends StatefulWidget {
-  const ChatWidget({
-    //required this.apiKey,
-    super.key,
-  });
-
-  //final String apiKey;
+ 
+ 
+ class ChemistryPrompt extends StatefulWidget {
+  const ChemistryPrompt({super.key});
 
   @override
-  State<ChatWidget> createState() => _ChatWidgetState();
+  State<ChemistryPrompt> createState() => _ChemistryPromptState();
 }
 
-class _ChatWidgetState extends State<ChatWidget> {
+class _ChemistryPromptState extends State<ChemistryPrompt> {
+
   late final GenerativeModel _model;
   late final GenerativeModel _functionCallModel;
-  //late final GenerativeModel _functionCallModel;
   late final ChatSession _chat;
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _textController = TextEditingController();
@@ -35,6 +26,9 @@ class _ChatWidgetState extends State<ChatWidget> {
   @override
   void initState() {
     super.initState();
+    //final model = AuthService.firebase().genAiModel();
+    //_chat = model as ChatSession;
+
     initFirebase().then((value) {
       _model = FirebaseVertexAI.instance.generativeModel(
         //model: 'gemini-1.5-flash-preview-0514',
@@ -42,50 +36,40 @@ class _ChatWidgetState extends State<ChatWidget> {
       );
       _functionCallModel = FirebaseVertexAI.instance.generativeModel(
         //model: 'gemini-1.5-flash-preview-0514',
-        model: 'gemini-1.5-pro',
+        model: 'gemini-1.5-flash',
         tools: [
-          Tool(functionDeclarations: [exchangeRateTool]),
+          Tool(functionDeclarations: [chemistryControlTool]),
         ],
       );
       _chat = _model.startChat();
     });
   }
 
-  Future<Map<String, Object?>> findExchangeRate(
+  Future<Map<String, Object?>> learnChemistry(
     Map<String, Object?> arguments,
   ) async =>
-      // This hypothetical API returns a JSON such as:
-      // {"base":"USD","date":"2024-04-17","rates":{"SEK": 0.091}}
-      {
-        'date': arguments['currencyDate'],
-        'base': arguments['currencyFrom'],
-        'rates': <String, Object?>{arguments['currencyTo']! as String: 0.091},
-      };
+      
+    // This mock API returns the requested lighting values
+    {
+      'topic': arguments['topic'],
+      'numberOfWords': arguments['numberOfWords'],
+    };
+
 
   
-  final exchangeRateTool = FunctionDeclaration(
-    'findExchangeRate',
-    'Returns the exchange rate between currencies on given date.',
-    Schema(
-      SchemaType.object,
-      properties: {
-        'currencyDate': Schema(
-          SchemaType.string,
-          description: 'A date in YYYY-MM-DD format or '
-              'the exact value "latest" if a time period is not specified.',
-        ),
-        'currencyFrom': Schema(
-          SchemaType.string,
-          description: 'The currency code of the currency to convert from, '
-              'such as "USD".',
-        ),
-        'currencyTo': Schema(
-          SchemaType.string,
-          description: 'The currency code of the currency to convert to, '
-              'such as "USD".',
-        ),
-      },
-    ),
+  final chemistryControlTool = FunctionDeclaration(
+    'learnChemistry',
+    'Generate answers for the topic and in specified number of words.',
+    Schema(SchemaType.object, properties: {
+      'topic': Schema(SchemaType.string,
+          description: 'Topic from Chemistry.'),
+      'numberOfWords': Schema(SchemaType.integer,
+          description: 'Number of words can be in the range of 0-300 words.'),
+    }, requiredProperties: [
+      'topic',
+      'numberOfWords'
+    ]
+    )
   );
 
   Future<void> initFirebase() async {
@@ -105,9 +89,9 @@ class _ChatWidgetState extends State<ChatWidget> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
+    
     final textFieldDecoration = InputDecoration(
       contentPadding: const EdgeInsets.all(15),
       hintText: 'write your query.',
@@ -117,7 +101,7 @@ class _ChatWidgetState extends State<ChatWidget> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20.0),
-        borderSide: const BorderSide(color: Color.fromARGB(255, 122, 243, 243), width: 4.0), // Visual feedback
+        borderSide: const BorderSide(color: Color.fromARGB(255, 122, 243, 243), width: 4.0), // Visual feedback        
       ),
     );
 
@@ -154,14 +138,14 @@ class _ChatWidgetState extends State<ChatWidget> {
                     focusNode: _textFieldFocus,
                     decoration: textFieldDecoration,
                     controller: _textController,
-                    onSubmitted: _sendChatMessage,
+                    onSubmitted: _testFunctionCalling,
                   ),
                 ),
                 const SizedBox.square(dimension: 5), 
                 if (!_loading)
                   IconButton(
                     onPressed: () async {
-                      await _sendChatMessage(_textController.text);
+                      await _testFunctionCalling(_textController.text);
                     },
                     icon: const Icon(
                       Icons.send,
@@ -178,107 +162,41 @@ class _ChatWidgetState extends State<ChatWidget> {
     );
   }
 
-  Future<void> _sendStorageUriPrompt(String message) async {
+  
+
+Future<void> _testFunctionCalling(String message) async {
     setState(() {
       _loading = true;
     });
-    try {
-      final content = [
-        Content.multi([
-          TextPart(message),
-          FileData(
-            'image/jpeg',
-            'gs://vertex-ai-example-ef5a2.appspot.com/foodpic.jpg',
-          ),
-        ]),
-      ];
-      _generatedContent.add((image: null, text: message, fromUser: true));
+    final chat = _functionCallModel.startChat();
+    const prompt = 'You are an expert Chemistry teacher. Please ask user about what user is interested to learn, how much user knows about the topic and based on the user response generate a learning plan to complete the topic also provide number of days it would be take complete the learning along with hours and then start teaching concepts step by step.';
 
-      var response = await _model.generateContent(content);
-      var text = response.text;
-      _generatedContent.add((image: null, text: text, fromUser: false));
+    // Send the message to the generative model.
+     var response = await chat.sendMessage(Content.text(prompt));
+     final text= response.text;
+     _generatedContent.add((image: null, text: text, fromUser: false));
 
-      if (text == null) {
-        _showError('No response from API.');
-        return;
-      } else {
-        setState(() {
-          _loading = false;
-          _scrollDown();
-        });
-      }
-    } catch (e) {
-      _showError(e.toString());
-      setState(() {
-        _loading = false;
-      });
-    } finally {
-      _textController.clear();
-      setState(() {
-        _loading = false;
-      });
-      _textFieldFocus.requestFocus();
-    }
-  }
-
-  Future<void> _sendImagePrompt(String message) async {
-    setState(() {
-      _loading = true;
-    });
-    try {
-      
-      ByteData catBytes = await rootBundle.load('assets/images/cat.jpg');
-      ByteData sconeBytes = await rootBundle.load('assets/images/scones.jpg');
-      final content = [
-        Content.multi([
-          TextPart(message),
-          // The only accepted mime types are image/*.
-          DataPart('image/jpeg', catBytes.buffer.asUint8List()),
-          DataPart('image/jpeg', sconeBytes.buffer.asUint8List()),
-        ])
-      ];
-      _generatedContent.add((
-        image: Image.asset("assets/images/cat.jpg"),
-        text: message,
-        fromUser: true
-      ));
-      _generatedContent.add((
-        image: Image.asset("assets/images/scones.jpg"),
-        text: null,
-        fromUser: true
-      ));
-
-      var response = await _model.generateContent(content);
-      var text = response.text;
-      _generatedContent.add((image: null, text: text, fromUser: false));
-
-      if (text == null) {
-        _showError('No response from API.');
-        return;
-      } else {
-        setState(() {
-          _loading = false;
-          _scrollDown();
-        });
-      }
-    } catch (e) {
-      _showError(e.toString());
-      setState(() {
-        _loading = false;
-      });
-    } finally {
-      _textController.clear();
-      setState(() {
-        _loading = false;
-      });
-      _textFieldFocus.requestFocus();
-    }
-  }
-
-  Future<void> _sendChatMessage(String message) async {
-    setState(() {
-      _loading = true;
-    });
+    void showError(String message) {
+        showDialog<void>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Something went wrong'),
+              content: SingleChildScrollView(
+                child: SelectableText(message),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                )
+              ],
+            );
+          },
+        );
+    }    
 
     try {
       _generatedContent.add((image: null, text: message, fromUser: true));
@@ -289,7 +207,7 @@ class _ChatWidgetState extends State<ChatWidget> {
       _generatedContent.add((image: null, text: text, fromUser: false));
 
       if (text == null) {
-        _showError('No response from API.');
+        showError('No response from API.');
         return;
       } else {
         setState(() {
@@ -298,7 +216,7 @@ class _ChatWidgetState extends State<ChatWidget> {
         });
       }
     } catch (e) {
-      _showError(e.toString());
+      showError(e.toString());
       setState(() {
         _loading = false;
       });
@@ -309,49 +227,45 @@ class _ChatWidgetState extends State<ChatWidget> {
       });
       _textFieldFocus.requestFocus();
     }
+
+    final functionCalls = response.functionCalls.toList();
+    // When the model response with a function call, invoke the function.
+    if (functionCalls.isNotEmpty) {
+     final functionCall = functionCalls.first;
+     final result = switch (functionCall.name) {
+        // Forward arguments to the hypothetical API.
+       'learnChemistry' => await learnChemistry(functionCall.args),
+        // Throw an exception if the model attempted to call a function that was
+        // not declared.
+         _ => throw UnimplementedError(
+            'Function not implemented: ${functionCall.name}',
+          )
+      };
+      // Send the response to the model so that it can use the result to generate
+      // text for the user.
+     response =  await chat.sendMessage(Content.functionResponse(functionCall.name, result));
+    }
+
+    // When the model responds with non-null text content, print it.
+    if (response.text case final text?) {
+      _generatedContent.add((image: null, text: text, fromUser: false));
+      setState(() {
+        _loading = false;
+      });
+    }
+
+   
   }
-
-  
-
-  Future<void> _testCountToken() async {
-    setState(() {
-      _loading = true;
-    });
-
-    const prompt = 'tell a short story';
-    var response = await _model.countTokens([Content.text(prompt)]);
-    print(
-      'token: ${response.totalTokens}, billable characters: ${response.totalBillableCharacters}',
-    );
-
-    setState(() {
-      _loading = false;
-    });
-  }
-
-  void _showError(String message) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Something went wrong'),
-          content: SingleChildScrollView(
-            child: SelectableText(message),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            )
-          ],
-        );
-      },
-    );
-  }
+    
 }
 
+   
+
+
+
+
+
+ 
 class MessageWidget extends StatelessWidget {
   const MessageWidget({
     super.key,
