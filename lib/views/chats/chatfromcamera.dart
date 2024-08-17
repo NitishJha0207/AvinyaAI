@@ -104,7 +104,7 @@ class _ChatfromcameraState extends State<Chatfromcamera> {
   Future<void> sendImage(XFile? imagefile) async{
     if(imagefile == null) return;
     String base64Image = base64Encode(File(imagefile.path).readAsBytesSync());
-    String apiKey = "AIzaSyAz3K7iQrhGtybkFQ103dreu_vXWDnpjhQ";
+    String apiKey = "";
     String requestBody = json.encode(
       {
             "contents": [

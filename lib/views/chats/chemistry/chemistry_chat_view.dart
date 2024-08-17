@@ -1,7 +1,6 @@
 import 'package:aiguru/services/auth/auth_service.dart';
 import 'package:aiguru/services/crud/mainui_service.dart';
 import 'package:aiguru/views/chats/chemistry/chemistry_prompt.dart';
-import 'package:aiguru/views/chats/history/history_prompt.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart'; 

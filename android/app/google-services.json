@@ -8,20 +8,81 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:335668504320:android:2b16167dc0e443de2eb5e5",
+        "mobilesdk_app_id": "1:335668504320:android:42c83b81817acf912eb5e5",
         "android_client_info": {
           "package_name": "com.avinyaai.aiguru"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "335668504320-d06vjaq6t2r3c2o0aimfo111tcbum0ml.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": ""
+          "current_key": "AIzaSyDk9Shd_QhgOzM4cF4BQlzjqAeZ9tBpJ2E"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335668504320-d06vjaq6t2r3c2o0aimfo111tcbum0ml.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "335668504320-9kptflje081hcbkk8pk3eshbe0kshika.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.avinyaai.aiguru"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335668504320:android:2b16167dc0e443de2eb5e5",
+        "android_client_info": {
+          "package_name": "com.avinyaai.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335668504320-8qtip0h5h5amh3p997oc389mpmndadc2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.avinyaai.app",
+            "certificate_hash": "577aab92ef385d50d3279d336b3ece95704726be"
+          }
+        },
+        {
+          "client_id": "335668504320-d06vjaq6t2r3c2o0aimfo111tcbum0ml.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk9Shd_QhgOzM4cF4BQlzjqAeZ9tBpJ2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335668504320-d06vjaq6t2r3c2o0aimfo111tcbum0ml.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "335668504320-9kptflje081hcbkk8pk3eshbe0kshika.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.avinyaai.aiguru"
+              }
+            }
+          ]
         }
       }
     }

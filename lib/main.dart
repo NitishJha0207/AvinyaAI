@@ -21,7 +21,7 @@ import 'package:path/path.dart';
 
 void main() async {
   
-  load('.env');
+  //load('.env');
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
       title: 'Avinya AI',
