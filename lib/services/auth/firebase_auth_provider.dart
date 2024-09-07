@@ -8,6 +8,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+
+/// The scopes required by this application.
+// #docregion Initialize
+const List<String> scopes = <String>[
+  'email',
+  'https://www.googleapis.com/auth/contacts.readonly',
+];
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  // Optional clientId
+  // clientId: 'your-client_id.apps.googleusercontent.com',
+  scopes: scopes,
+);
+
+Future<void> _handleSignOut() => _googleSignIn.disconnect();
+
 class FirebaseAuthProvider implements AuthProvider {
   @override
   Future<AuthUser> createUser({
@@ -46,6 +62,7 @@ class FirebaseAuthProvider implements AuthProvider {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null){
       return AuthUser.fromFirebase(user);
+      
     } else {
       return null;
     }
@@ -83,8 +100,14 @@ class FirebaseAuthProvider implements AuthProvider {
 
   @override
   Future<void> logOut() async {
+    
+
     final user  = FirebaseAuth.instance.currentUser;
     if (user != null){
+      const ElevatedButton(
+            onPressed: _handleSignOut,
+            child: Text('SIGN OUT'),
+          );
       await FirebaseAuth.instance.signOut();
     } else {
       throw UserNotLoggedInAuthException();

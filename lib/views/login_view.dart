@@ -202,12 +202,12 @@ class _LoginViewState extends State<LoginView> {
                 ),
               ),
         
-              //SocialLoginButton(
-              //    buttonType: SocialLoginButtonType.google,
-              //    onPressed: () {
-              //      Navigator.of(context).pushNamed(googleSignInRoute);
-              //   },
-              //)
+              SocialLoginButton(
+                 buttonType: SocialLoginButtonType.google,
+                 onPressed: () {
+                   Navigator.of(context).pushNamed(googleSignInRoute);
+                },
+              )
           ],
         ),
       ),

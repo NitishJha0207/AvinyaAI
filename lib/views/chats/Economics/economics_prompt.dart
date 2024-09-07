@@ -2,16 +2,15 @@ import 'package:aiguru/services/auth/auth_service.dart';
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
- 
- 
- class PhysicsPrompt extends StatefulWidget {
-  const PhysicsPrompt({super.key});
+
+class EconomicsPrompt extends StatefulWidget {
+  const EconomicsPrompt({super.key});
 
   @override
-  State<PhysicsPrompt> createState() => _PhysicsPromptState();
+  State<EconomicsPrompt> createState() => _EconomicsPromptState();
 }
 
-class _PhysicsPromptState extends State<PhysicsPrompt> {
+class _EconomicsPromptState extends State<EconomicsPrompt> {
 
   late final GenerativeModel _model;
   late final GenerativeModel _functionCallModel;
@@ -32,20 +31,20 @@ class _PhysicsPromptState extends State<PhysicsPrompt> {
     initFirebase().then((value) {
       _model = FirebaseVertexAI.instance.generativeModel(
         //model: 'gemini-1.5-flash-preview-0514',
-        model: 'gemini-1.5-pro',
+        model: 'gemini-1.5-flash',
       );
       _functionCallModel = FirebaseVertexAI.instance.generativeModel(
         //model: 'gemini-1.5-flash-preview-0514',
         model: 'gemini-1.5-flash',
         tools: [
-          Tool(functionDeclarations: [physicsControlTool]),
+          Tool(functionDeclarations: [economicsControlTool]),
         ],
       );
       _chat = _model.startChat();
     });
   }
 
-  Future<Map<String, Object?>> learnPhysics(
+  Future<Map<String, Object?>> learnEconomics(
     Map<String, Object?> arguments,
   ) async =>
       
@@ -57,12 +56,12 @@ class _PhysicsPromptState extends State<PhysicsPrompt> {
 
 
   
-  final physicsControlTool = FunctionDeclaration(
-    'learnPhysics',
+  final economicsControlTool = FunctionDeclaration(
+    'learnEconomics',
     'Generate answers for the topic and in specified number of words.',
     Schema(SchemaType.object, properties: {
       'topic': Schema(SchemaType.string,
-          description: 'Topic from Physics.'),
+          description: 'Topic from Economics.'),
       'numberOfWords': Schema(SchemaType.integer,
           description: 'Number of words can be in the range of 0-300 words.'),
     }, requiredProperties: [
@@ -169,7 +168,7 @@ Future<void> _testFunctionCalling(String message) async {
       _loading = true;
     });
     final chat = _functionCallModel.startChat();
-    const prompt = 'You are an expert Physics teacher. Please ask user about what user is interested to learn, how much user knows about the topic and based on the user response generate a learning plan to complete the topic also provide number of days it would be take complete the learning along with hours and then start teaching concepts step by step.';
+    const prompt = 'You are an expert Economics teacher. Please ask user about what user is interested to learn, how much user knows about the topic and based on the user response generate a learning plan to complete the topic also provide number of days it would be take complete the learning along with hours and then start teaching concepts step by step.';
 
     // Send the message to the generative model.
      var response = await chat.sendMessage(Content.text(prompt));
@@ -181,7 +180,13 @@ Future<void> _testFunctionCalling(String message) async {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: const Text('Something went wrong'),
+              icon:const Icon(
+                Icons.add_alert,
+                color: Color.fromARGB(255, 6, 211, 211),
+                ),
+              title: const Text(
+                'Oops!',
+                ),
               content: SingleChildScrollView(
                 child: SelectableText(message),
               ),
@@ -190,7 +195,9 @@ Future<void> _testFunctionCalling(String message) async {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('OK'),
+                  child: const Text(
+                    'OK',
+                  ),
                 )
               ],
             );
@@ -200,14 +207,16 @@ Future<void> _testFunctionCalling(String message) async {
 
     try {
       _generatedContent.add((image: null, text: message, fromUser: true));
-      final response = await _chat.sendMessage(
+      final response = await Future.delayed(const Duration(milliseconds: 1000), (){
+        return _chat.sendMessage(
         Content.text(message),
       );
+      });
       final text = response.text;
       _generatedContent.add((image: null, text: text, fromUser: false));
 
       if (text == null) {
-        showError('No response from API.');
+        showError('You may want to enter a text.');
         return;
       } else {
         setState(() {
@@ -216,7 +225,7 @@ Future<void> _testFunctionCalling(String message) async {
         });
       }
     } catch (e) {
-      showError(e.toString());
+      showError("There seems to be an issue with your network, Please try again. If the issue persist then please wait for a minute and try again.");
       setState(() {
         _loading = false;
       });
@@ -234,7 +243,7 @@ Future<void> _testFunctionCalling(String message) async {
      final functionCall = functionCalls.first;
      final result = switch (functionCall.name) {
         // Forward arguments to the hypothetical API.
-       'learnPhysics' => await learnPhysics(functionCall.args),
+       'learnEconomics' => await learnEconomics(functionCall.args),
         // Throw an exception if the model attempted to call a function that was
         // not declared.
          _ => throw UnimplementedError(
@@ -243,7 +252,9 @@ Future<void> _testFunctionCalling(String message) async {
       };
       // Send the response to the model so that it can use the result to generate
       // text for the user.
-     response =  await chat.sendMessage(Content.functionResponse(functionCall.name, result));
+     response =  await Future.delayed(const Duration(milliseconds: 5000), () {
+      return chat.sendMessage(Content.functionResponse(functionCall.name, result));
+     });
     }
 
     // When the model responds with non-null text content, print it.
@@ -253,19 +264,9 @@ Future<void> _testFunctionCalling(String message) async {
         _loading = false;
       });
     }
-
-   
   }
-    
 }
 
-   
-
-
-
-
-
- 
 class MessageWidget extends StatelessWidget {
   const MessageWidget({
     super.key,

@@ -53,7 +53,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDk9Shd_QhgOzM4cF4BQlzjqAeZ9tBpJ2E',
-    appId: '1:335668504320:android:2b16167dc0e443de2eb5e5',
+    appId: '1:335668504320:android:42c83b81817acf912eb5e5',
     messagingSenderId: '335668504320',
     projectId: 'avinyaai',
     databaseURL: 'https://avinyaai-default-rtdb.asia-southeast1.firebasedatabase.app',
@@ -67,6 +67,8 @@ class DefaultFirebaseOptions {
     projectId: 'avinyaai',
     databaseURL: 'https://avinyaai-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'avinyaai.appspot.com',
+    androidClientId: '335668504320-8qtip0h5h5amh3p997oc389mpmndadc2.apps.googleusercontent.com',
+    iosClientId: '335668504320-9kptflje081hcbkk8pk3eshbe0kshika.apps.googleusercontent.com',
     iosBundleId: 'com.avinyaai.aiguru',
   );
 
@@ -77,6 +79,8 @@ class DefaultFirebaseOptions {
     projectId: 'avinyaai',
     databaseURL: 'https://avinyaai-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'avinyaai.appspot.com',
+    androidClientId: '335668504320-8qtip0h5h5amh3p997oc389mpmndadc2.apps.googleusercontent.com',
+    iosClientId: '335668504320-9kptflje081hcbkk8pk3eshbe0kshika.apps.googleusercontent.com',
     iosBundleId: 'com.avinyaai.aiguru',
   );
 

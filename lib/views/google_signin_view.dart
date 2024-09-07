@@ -167,22 +167,38 @@ class _SignInDemoState extends State<SignInDemo> {
       // The user is Authenticated
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
+        children: [
           ListTile(
             leading: GoogleUserCircleAvatar(
               identity: user,
             ),
             title: Text(user.displayName ?? ''),
             subtitle: Text(user.email),
+            onTap: () => {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                        mainuiRoute, 
+                        (route) => false ,
+                      ),
+            },
+             
           ),
-          const Text('Signed in successfully.'),
+          TextButton(
+            onPressed: () => {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                        mainuiRoute, 
+                        (route) => false ,
+                      ),
+            }, child: const Text("Login"),
+          ),
+          
+          //const Text('Signed in successfully.'),
           if (_isAuthorized) ...<Widget>[
             // The user has Authorized all required scopes
             Text(_contactText),
-            ElevatedButton(
-              child: const Text('REFRESH'),
-              onPressed: () => _handleGetContact(user),
-            ),
+            // ElevatedButton(
+            //   child: const Text('REFRESH'),
+            //   onPressed: () => _handleGetContact(user),
+            // ),
           ],
           if (!_isAuthorized) ...<Widget>[
             // The user has NOT Authorized all required scopes.
@@ -193,10 +209,7 @@ class _SignInDemoState extends State<SignInDemo> {
               child: const Text('REQUEST PERMISSIONS'),
             ),
           ],
-          ElevatedButton(
-            onPressed: _handleSignOut,
-            child: const Text('SIGN OUT'),
-          ),
+          
         ],
       );
     } else {

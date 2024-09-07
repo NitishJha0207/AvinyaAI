@@ -1,17 +1,17 @@
 import 'package:aiguru/services/auth/auth_service.dart';
 import 'package:aiguru/services/crud/mainui_service.dart';
-import 'package:aiguru/views/chats/physics_prompt.dart';
+import 'package:aiguru/views/chats/ComputerScience/computer_science_prompt.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart'; 
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 
-class PhysicsChatView extends StatefulWidget {
-  const PhysicsChatView({super.key, required this.title});
+class ComputerScienceChatView extends StatefulWidget {
+  const ComputerScienceChatView({super.key, required this.title});
   final String title;
 
   @override
-  State<PhysicsChatView> createState() => _PhysicsChatViewState();
+  State<ComputerScienceChatView> createState() => _ComputerScienceChatViewState();
 }
 
 class GeminiClient {
@@ -73,9 +73,9 @@ class ChatMessageWidget extends StatelessWidget {
   }
 }
 
-class _PhysicsChatViewState extends State<PhysicsChatView> {
+class _ComputerScienceChatViewState extends State<ComputerScienceChatView> {
 
-  DatabaseMain? _chat;
+   DatabaseMain? _chat;
   late final MainService _chatsService;
   late final TextEditingController _textController;
 
@@ -225,7 +225,7 @@ class _PhysicsChatViewState extends State<PhysicsChatView> {
         ),
         centerTitle: true,
       ),
-      body: const PhysicsPrompt(),
+      body: const ComputerSciencePrompt(),
     ); 
   }
 }

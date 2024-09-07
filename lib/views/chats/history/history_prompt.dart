@@ -32,7 +32,7 @@ class _HistoryPromptState extends State<HistoryPrompt> {
     initFirebase().then((value) {
       _model = FirebaseVertexAI.instance.generativeModel(
         //model: 'gemini-1.5-flash-preview-0514',
-        model: 'gemini-1.5-pro',
+        model: 'gemini-1.5-flash',
       );
       _functionCallModel = FirebaseVertexAI.instance.generativeModel(
         //model: 'gemini-1.5-flash-preview-0514',
@@ -51,8 +51,8 @@ class _HistoryPromptState extends State<HistoryPrompt> {
       
     // This mock API returns the requested lighting values
     {
-      'topic': arguments['topic'],
-      'numberOfWords': arguments['numberOfWords'],
+      'History_topic': arguments['topic'],
+      'subtopic': arguments['subtopic'],
     };
 
 
@@ -61,13 +61,13 @@ class _HistoryPromptState extends State<HistoryPrompt> {
     'learnHistory',
     'Generate answers for the topic and in specified number of words.',
     Schema(SchemaType.object, properties: {
-      'topic': Schema(SchemaType.string,
+      'History_topic': Schema(SchemaType.string,
           description: 'Topic from History.'),
-      'numberOfWords': Schema(SchemaType.integer,
-          description: 'Number of words can be in the range of 0-300 words.'),
+      'subtopic': Schema(SchemaType.string,
+          description: 'Subtopic from the selected topic.'),
     }, requiredProperties: [
-      'topic',
-      'numberOfWords'
+      'History_topic',
+      'subtopic'
     ]
     )
   );
@@ -169,10 +169,11 @@ Future<void> _testFunctionCalling(String message) async {
       _loading = true;
     });
     final chat = _functionCallModel.startChat();
-    const prompt = 'You are an expert History teacher. Please ask user about what user is interested to learn, how much user knows about the topic and based on the user response generate a learning plan to complete the topic also provide number of days it would be take complete the learning along with hours and then start teaching concepts step by step.';
+    const prompt = 'You are an expert history teacher. Please ask user about what user is interested to learn, how much user knows about the topic and based on the user response generate a learning plan to complete the topic also provide number of days it would be take complete the learning along with hours and then start teaching concepts step by step.';
 
     // Send the message to the generative model.
      var response = await chat.sendMessage(Content.text(prompt));
+    
      final text= response.text;
      _generatedContent.add((image: null, text: text, fromUser: false));
 
@@ -181,7 +182,11 @@ Future<void> _testFunctionCalling(String message) async {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: const Text('Something went wrong'),
+               icon:const Icon(
+                Icons.add_alert,
+                color: Color.fromARGB(255, 6, 211, 211),
+                ),
+              title: const Text('Oops!'),
               content: SingleChildScrollView(
                 child: SelectableText(message),
               ),
@@ -200,9 +205,12 @@ Future<void> _testFunctionCalling(String message) async {
 
     try {
       _generatedContent.add((image: null, text: message, fromUser: true));
-      final response = await _chat.sendMessage(
+      final response = await Future.delayed(const Duration(milliseconds: 1000), (){
+        return _chat.sendMessage(
         Content.text(message),
       );
+      });
+      
       final text = response.text;
       _generatedContent.add((image: null, text: text, fromUser: false));
 
@@ -216,7 +224,7 @@ Future<void> _testFunctionCalling(String message) async {
         });
       }
     } catch (e) {
-      showError(e.toString());
+      showError("There seems to be an issue with your network, Please try again. If the issue persist then please wait for a minute and try again.");
       setState(() {
         _loading = false;
       });
@@ -243,7 +251,9 @@ Future<void> _testFunctionCalling(String message) async {
       };
       // Send the response to the model so that it can use the result to generate
       // text for the user.
-     response =  await chat.sendMessage(Content.functionResponse(functionCall.name, result));
+     response =  await Future.delayed(const Duration(milliseconds: 5000), () {
+      return chat.sendMessage(Content.functionResponse(functionCall.name, result));
+     });
     }
 
     // When the model responds with non-null text content, print it.

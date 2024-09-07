@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
  
  
- class ChemistryPrompt extends StatefulWidget {
-  const ChemistryPrompt({super.key});
+ class MathematicsPrompt extends StatefulWidget {
+  const MathematicsPrompt({super.key});
 
   @override
-  State<ChemistryPrompt> createState() => _ChemistryPromptState();
+  State<MathematicsPrompt> createState() => _MathematicsPromptState();
 }
 
-class _ChemistryPromptState extends State<ChemistryPrompt> {
+class _MathematicsPromptState extends State<MathematicsPrompt> {
 
   late final GenerativeModel _model;
   late final GenerativeModel _functionCallModel;
@@ -38,14 +38,14 @@ class _ChemistryPromptState extends State<ChemistryPrompt> {
         //model: 'gemini-1.5-flash-preview-0514',
         model: 'gemini-1.5-flash',
         tools: [
-          Tool(functionDeclarations: [chemistryControlTool]),
+          Tool(functionDeclarations: [mathematicsControlTool]),
         ],
       );
       _chat = _model.startChat();
     });
   }
 
-  Future<Map<String, Object?>> learnChemistry(
+  Future<Map<String, Object?>> learnMathematics(
     Map<String, Object?> arguments,
   ) async =>
       
@@ -57,14 +57,14 @@ class _ChemistryPromptState extends State<ChemistryPrompt> {
 
 
   
-  final chemistryControlTool = FunctionDeclaration(
-    'learnChemistry',
-    'Generate answers for the topic and in specified number of words.',
+  final mathematicsControlTool = FunctionDeclaration(
+    'learnMathematics',
+    'Generate answers for the topic.',
     Schema(SchemaType.object, properties: {
       'topic': Schema(SchemaType.string,
-          description: 'Topic from Chemistry.'),
+          description: 'Topic from Mathematics.'),
       'numberOfWords': Schema(SchemaType.integer,
-          description: 'Number of words can be in the range of 0-300 words.'),
+          description: 'Number of words can be in the range of 0-1000 words.'),
     }, requiredProperties: [
       'topic',
       'numberOfWords'
@@ -162,17 +162,15 @@ class _ChemistryPromptState extends State<ChemistryPrompt> {
     );
   }
 
-  
-
-Future<void> _testFunctionCalling(String message) async {
+  Future<void> _testFunctionCalling(String message) async {
     setState(() {
       _loading = true;
     });
     final chat = _functionCallModel.startChat();
-    const prompt = 'You are an expert Chemistry teacher. Please ask user about what user is interested to learn, how much user knows about the topic and based on the user response generate a learning plan to complete the topic also provide number of days it would be take complete the learning along with hours and then start teaching concepts step by step.';
+    const prompt = 'You are an expert mathematics teacher. Please ask user about what user is interested to learn, how much user knows about the topic and based on the user response generate a learning plan to complete the topic also provide number of days it would be take complete the learning along with hours and then start teaching concepts step by step.';
 
     // Send the message to the generative model.
-      var response = await chat.sendMessage(Content.text(prompt));
+     var response = await chat.sendMessage(Content.text(prompt));
      final text= response.text;
      _generatedContent.add((image: null, text: text, fromUser: false));
 
@@ -181,11 +179,13 @@ Future<void> _testFunctionCalling(String message) async {
           context: context,
           builder: (context) {
             return AlertDialog(
-               icon:const Icon(
+              icon:const Icon(
                 Icons.add_alert,
                 color: Color.fromARGB(255, 6, 211, 211),
                 ),
-              title: const Text('Oops!'),
+              title: const Text(
+                'Oops!',
+                ),
               content: SingleChildScrollView(
                 child: SelectableText(message),
               ),
@@ -194,7 +194,9 @@ Future<void> _testFunctionCalling(String message) async {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('OK'),
+                  child: const Text(
+                    'OK',
+                  ),
                 )
               ],
             );
@@ -213,7 +215,7 @@ Future<void> _testFunctionCalling(String message) async {
       _generatedContent.add((image: null, text: text, fromUser: false));
 
       if (text == null) {
-        showError('No response from API.');
+        showError('You may want to enter a text.');
         return;
       } else {
         setState(() {
@@ -240,7 +242,7 @@ Future<void> _testFunctionCalling(String message) async {
      final functionCall = functionCalls.first;
      final result = switch (functionCall.name) {
         // Forward arguments to the hypothetical API.
-       'learnChemistry' => await learnChemistry(functionCall.args),
+       'learnMathematics' => await learnMathematics(functionCall.args),
         // Throw an exception if the model attempted to call a function that was
         // not declared.
          _ => throw UnimplementedError(
@@ -249,7 +251,7 @@ Future<void> _testFunctionCalling(String message) async {
       };
       // Send the response to the model so that it can use the result to generate
       // text for the user.
-     response =  await Future.delayed(const Duration(milliseconds: 5000),() {
+     response =  await Future.delayed(const Duration(milliseconds: 5000), (){
       return chat.sendMessage(Content.functionResponse(functionCall.name, result));
      });
     }
@@ -260,11 +262,8 @@ Future<void> _testFunctionCalling(String message) async {
       setState(() {
         _loading = false;
       });
-    }
-
-   
-  }
-    
+    }   
+  }    
 }
 
    
@@ -314,3 +313,24 @@ class MessageWidget extends StatelessWidget {
     );
   }
 }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

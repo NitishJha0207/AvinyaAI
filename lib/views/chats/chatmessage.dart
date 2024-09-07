@@ -38,11 +38,11 @@ class _ChatWidgetState extends State<ChatWidget> {
     initFirebase().then((value) {
       _model = FirebaseVertexAI.instance.generativeModel(
         //model: 'gemini-1.5-flash-preview-0514',
-        model: 'gemini-1.5-pro',
+        model: 'gemini-1.5-flash',
       );
       _functionCallModel = FirebaseVertexAI.instance.generativeModel(
         //model: 'gemini-1.5-flash-preview-0514',
-        model: 'gemini-1.5-pro',
+        model: 'gemini-1.5-flash',
         tools: [
           Tool(functionDeclarations: [exchangeRateTool]),
         ],
@@ -275,30 +275,33 @@ class _ChatWidgetState extends State<ChatWidget> {
     }
   }
 
-  Future<void> _sendChatMessage(String message) async {
+  Future<String?> _sendChatMessage(String message) async {
     setState(() {
       _loading = true;
     });
 
     try {
       _generatedContent.add((image: null, text: message, fromUser: true));
-      final response = await _chat.sendMessage(
+      final response = _chat.sendMessageStream(
         Content.text(message),
       );
-      final text = response.text;
-      _generatedContent.add((image: null, text: text, fromUser: false));
-
-      if (text == null) {
+       await for (final chunk in response){
+         final text = chunk.text;
+        _generatedContent.add((image: null, text: text, fromUser: false));
+        if (chunk.text == null) {
         _showError('No response from API.');
-        return;
+        
       } else {
         setState(() {
           _loading = false;
           _scrollDown();
         });
       }
+      
+      }
+      
     } catch (e) {
-      _showError(e.toString());
+      _showError("There seems to be an issue with your network, Please try again. If the issue persist then please wait for a minute and try again.");
       setState(() {
         _loading = false;
       });
@@ -309,6 +312,9 @@ class _ChatWidgetState extends State<ChatWidget> {
       });
       _textFieldFocus.requestFocus();
     }
+
+    return null;
+    
   }
 
   
@@ -334,7 +340,11 @@ class _ChatWidgetState extends State<ChatWidget> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Something went wrong'),
+           icon:const Icon(
+                Icons.add_alert,
+                color: Color.fromARGB(255, 6, 211, 211),
+                ),
+          title: const Text('Oops!'),
           content: SingleChildScrollView(
             child: SelectableText(message),
           ),
